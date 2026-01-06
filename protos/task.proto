@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package task;
+
+service TaskService {
+  rpc CreateTask (CreateTaskRequest) returns (TaskResponse);
+  rpc ListTasks (ListTasksRequest) returns (ListTasksResponse);
+  rpc UpdateStatus (UpdateStatusRequest) returns (TaskResponse);
+  rpc GetStats (Empty) returns (StatsResponse);
+}
+
+message Empty {}
+
+message CreateTaskRequest {
+  string title = 1;
+  string description = 2;
+}
+
+message TaskResponse {
+  int32 id = 1;
+  string title = 2;
+  string description = 3;
+  string status = 4;
+}
+
+message ListTasksRequest {
+  int32 skip = 1;
+  int32 limit = 2;
+}
+
+message ListTasksResponse {
+  repeated TaskResponse tasks = 1;
+}
+
+message UpdateStatusRequest {
+  int32 id = 1;
+  string status = 2;
+}
+
+message StatsResponse {
+  int32 total_tasks = 1;
+  map<string, int32> by_status = 2;
+}
